@@ -3,7 +3,6 @@ import os.path
 import sys
 from os import PathLike
 from pathlib import Path
-from tempfile import tempdir
 import tempfile
 from urllib import request
 
