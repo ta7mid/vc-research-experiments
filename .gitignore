@@ -11,3 +11,6 @@ wheels/
 
 # PyCharm
 .idea
+
+# Ruff
+.ruff_cache/
