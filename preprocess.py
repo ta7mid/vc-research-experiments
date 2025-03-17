@@ -20,7 +20,7 @@ def main():
     assert dir.exists(), f"directory not found: {dir}"
 
     for file in dir.iterdir():
-        if file.is_file() and file.suffix in ("mtx", "edges"):
+        if file.is_file() and file.suffix in (".mtx", ".edges"):
             process(file)
             break
 
@@ -33,7 +33,7 @@ def process(graph_filepath: pathlib.Path) -> nx.Graph | None:
     dir = graph_filepath.parent
 
     # delete everything in the directory
-    for file in graph_filepath.parent:
+    for file in graph_filepath.parent.iterdir():
         file.unlink()
 
     with open(dir / "info.txt", "w") as f:
