@@ -57,20 +57,22 @@ def main():
 
     logger.debug("Printing analysis results.")
     for key, val in analysis.items():
+        if type(val) is bool:
+            val = "yes" if val else "no"
         print("{}: {}\n".format(key, val))
 
 
 def analyze_graph(
     filepath: pathlib.Path | os.PathLike[typing.Any] | str,
     format: typing.Literal["mtx", "edges"] | str | types.NoneType = None,
-) -> dict[str, int | float]:
+) -> dict[str, int | float | bool]:
     """Reads a graph from a file in one of the supported formats."""
 
     g = parse.parse_graph(filepath, format)
     return graph_properties(g)
 
 
-def graph_properties(g: nx.Graph) -> dict[str, int | float]:
+def graph_properties(g: nx.Graph) -> dict[str, int | float | bool]:
     max_deg, avg_deg = graph_max_and_avg_degrees(g)
     return {
         "nodes": g.order(),
@@ -78,7 +80,7 @@ def graph_properties(g: nx.Graph) -> dict[str, int | float]:
         "max_degree": max_deg,
         "avg_degree": avg_deg,
         "density": graph_density(g),
-        "is_connected": int(nx.is_connected(g)),
+        "connected": nx.is_connected(g),
     }
 
 

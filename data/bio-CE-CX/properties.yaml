@@ -3,4 +3,4 @@ edges: 245952
 max_degree: 375
 avg_degree: 32.300479348611205
 density: 0.0021211242020364595
-is_connected: 0
+connected: no
