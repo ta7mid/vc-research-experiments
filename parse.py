@@ -96,7 +96,7 @@ def parse_graph(
             try:
                 g = parse_as_mtx(filepath)
             except ValueError as error:
-                logger.error(f"Failed to read graph as Matrix Market file: {error}")
+                logger.warning(f"Failed to read graph as Matrix Market file: {error}")
                 logger.info("Trying to read as an edge list file.")
 
                 try:
@@ -109,7 +109,7 @@ def parse_graph(
             try:
                 g = parse_as_edge_list(filepath)
             except ValueError as error:
-                logger.error(f"Failed to read graph as edge list: {error}")
+                logger.warning(f"Failed to read graph as edge list: {error}")
                 logger.info("Trying to read as a Matrix Market file.")
 
                 try:

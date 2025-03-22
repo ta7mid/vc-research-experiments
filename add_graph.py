@@ -1,22 +1,13 @@
 #!/usr/bin/env python3
 
 import argparse
-import logging
-import os
 
 import download
 import extract
 import prepare
 
-logger = logging.getLogger(__name__)
-
 
 def main():
-    logging.basicConfig(
-        filename=os.environ.get("LOGFILE", None),
-        level=os.environ.get("LOGLEVEL", "WARNING").upper(),
-    )
-
     parser = argparse.ArgumentParser(
         description=(
             "Download a graph from Network Repository and preprocess it to make it ready for the "
