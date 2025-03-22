@@ -15,5 +15,6 @@ wheels/
 # Ruff
 .ruff_cache/
 
-# scratch notebook
+# scratch files
 scratch.ipynb
+scratch.py
