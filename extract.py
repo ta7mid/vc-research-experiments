@@ -4,6 +4,7 @@ import argparse
 import logging
 import os
 import pathlib
+import types
 import typing
 import zipfile
 
@@ -66,7 +67,7 @@ def main():
 
 def unzip(
     zip_filepath: pathlib.Path | os.PathLike[typing.Any] | str,
-    out_parent: pathlib.Path | os.PathLike[typing.Any] | str | None = None,
+    out_parent: pathlib.Path | os.PathLike[typing.Any] | str | types.NoneType = None,
     noclobber: bool = False,
     delete_zip: bool = True,
 ) -> pathlib.Path:

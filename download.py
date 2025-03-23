@@ -6,6 +6,7 @@ import os
 import os.path
 import pathlib
 import tempfile
+import types
 import typing
 from urllib import request
 
@@ -66,8 +67,8 @@ def main():
 def download(
     url: str,
     *,
-    destdir: pathlib.Path | os.PathLike[typing.Any] | str | None = None,
-    filename: str | None = None,
+    destdir: pathlib.Path | os.PathLike[typing.Any] | str | types.NoneType = None,
+    filename: str | types.NoneType = None,
     noclobber: bool = False,
 ) -> str:
     """Downloads a file from a URL.
