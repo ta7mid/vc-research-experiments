@@ -7,13 +7,13 @@ import typing
 
 import networkx as nx
 
-import parse
+import read_graph
 
 __all__ = [
-    "analyze_graph",
-    "graph_properties",
-    "graph_max_and_avg_degrees",
-    "graph_density",
+    "compute_from_file",
+    "compute",
+    "max_and_avg_degrees",
+    "density",
 ]
 
 logger = logging.getLogger(__name__)
@@ -53,38 +53,38 @@ def main():
     if args.graph_filepath == "-":
         args.graph_filepath = input()
 
-    analysis = analyze_graph(args.graph_filepath, args.format)
+    props = compute_from_file(args.graph_filepath, args.format)
 
     logger.debug("Printing analysis results.")
-    for key, val in analysis.items():
+    for key, val in props.items():
         if type(val) is bool:
             val = "yes" if val else "no"
         print("{}: {}\n".format(key, val))
 
 
-def analyze_graph(
+def compute_from_file(
     filepath: pathlib.Path | os.PathLike[typing.Any] | str,
     format: typing.Literal["mtx", "edges"] | str | types.NoneType = None,
 ) -> dict[str, int | float | bool]:
     """Reads a graph from a file in one of the supported formats."""
 
-    g = parse.parse_graph(filepath, format)
-    return graph_properties(g)
+    g = read_graph.from_file(filepath, format)
+    return compute(g)
 
 
-def graph_properties(g: nx.Graph) -> dict[str, int | float | bool]:
-    max_deg, avg_deg = graph_max_and_avg_degrees(g)
+def compute(g: nx.Graph) -> dict[str, int | float | bool]:
+    max_deg, avg_deg = max_and_avg_degrees(g)
     return {
         "nodes": g.order(),
         "edges": g.size(),
         "max_degree": max_deg,
         "avg_degree": avg_deg,
-        "density": graph_density(g),
+        "density": density(g),
         "connected": nx.is_connected(g),
     }
 
 
-def graph_max_and_avg_degrees(g: nx.Graph) -> tuple[int, float]:
+def max_and_avg_degrees(g: nx.Graph) -> tuple[int, float]:
     max_deg = 0
     total_deg = 0
     for _, deg in g.degree:
@@ -94,7 +94,7 @@ def graph_max_and_avg_degrees(g: nx.Graph) -> tuple[int, float]:
     return max_deg, total_deg / g.order()
 
 
-def graph_density(g: nx.Graph) -> float:
+def density(g: nx.Graph) -> float:
     return 2 * g.size() / (g.order() * (g.order() - 1))
 
 

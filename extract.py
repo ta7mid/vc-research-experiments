@@ -58,7 +58,7 @@ def main():
     path = unzip(
         args.zip_filepath,
         out_parent=args.dir,
-        noclobber=args.noclobber,
+        no_clobber=args.noclobber,
         delete_zip=args.rm,
     )
 
@@ -68,7 +68,7 @@ def main():
 def unzip(
     zip_filepath: pathlib.Path | os.PathLike[typing.Any] | str,
     out_parent: pathlib.Path | os.PathLike[typing.Any] | str | types.NoneType = None,
-    noclobber: bool = False,
+    no_clobber: bool = False,
     delete_zip: bool = True,
 ) -> pathlib.Path:
     if out_parent is None:
@@ -100,10 +100,10 @@ def unzip(
     exdir = out_parent / filename
     logger.info(f"Extracting '{zip_filepath}' to '{exdir}'")
 
-    if exdir.exists() and noclobber:
+    if exdir.exists() and no_clobber:
         raise FileExistsError(
             f"Extraction destination '{exdir}' already exists, but "
-            + ("the -noclobber flag" if __name__ == "__main__" else "noclobber=True")
+            + ("the -noclobber flag" if __name__ == "__main__" else "no_clobber=True")
             + " was specified"
         )
 

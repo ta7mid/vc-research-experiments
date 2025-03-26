@@ -9,8 +9,8 @@ import typing
 
 import networkx as nx
 
-import analyze
-import parse
+import graph_properties
+import read_graph
 
 __all__ = ["prepare"]
 
@@ -59,14 +59,14 @@ def prepare(graph_dir: pathlib.Path | os.PathLike[typing.Any] | str):
     if not graph_dir.is_dir():
         raise ValueError(f"Not a directory: {graph_dir}")
 
-    for file in graph_dir.iterdir():
-        if file.is_file() and file.suffix in (".mtx", ".edges"):
+    for path in graph_dir.iterdir():
+        if path.is_file() and path.suffix in (".mtx", ".edges"):
             logger.info(
-                f"Taking graph data from file '{file}' and ignoring other files in '{graph_dir}'."
+                f"Taking graph data from file '{path}' and ignoring other files in '{graph_dir}'."
             )
 
             try:
-                g = parse.parse_graph(file)
+                g = read_graph.from_file(path)
 
                 logger.info("Removing self-loops if they exist.")
                 g.remove_edges_from(nx.selfloop_edges(g))
@@ -75,7 +75,7 @@ def prepare(graph_dir: pathlib.Path | os.PathLike[typing.Any] | str):
                 g = nx.convert_node_labels_to_integers(g)
 
                 logger.info("Computing graph properties.")
-                props = analyze.graph_properties(g)
+                props = graph_properties.compute(g)
 
                 # delete everything in the directory
                 logger.info(f"Deleting everything in '{graph_dir}'.")
@@ -99,15 +99,15 @@ def prepare(graph_dir: pathlib.Path | os.PathLike[typing.Any] | str):
                 return
             except ValueError as e:
                 raise ValueError(
-                    f"Error reading and processing graph from file '{file}': {e}"
+                    f"Error reading and processing graph from file '{path}': {e}"
                 ) from e
             except RuntimeError as e:
                 raise RuntimeError(
-                    f"Error reading and processing graph from file '{file}': {e}"
+                    f"Error reading and processing graph from file '{path}': {e}"
                 ) from e
             except Exception as e:
                 raise Exception(
-                    f"Error reading and processing graph from file '{file}': {e}"
+                    f"Error reading and processing graph from file '{path}': {e}"
                 ) from e
 
     raise ValueError(f"No graph data files found in '{graph_dir}'")
