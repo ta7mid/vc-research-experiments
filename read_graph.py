@@ -5,14 +5,13 @@ import logging
 import os
 import pathlib
 import re
-import types
 import typing
 from collections import abc
 
 import networkx as nx
 import scipy.io
 
-__all__ = ["from_file", "from_mtx_file", "from_edge_list_file"]
+__all__ = ["from_edge_list_file", "from_file", "from_mtx_file"]
 
 logger = logging.getLogger(__name__)
 
@@ -70,7 +69,7 @@ def main():
 
 def from_file(
     filepath: pathlib.Path | os.PathLike[typing.Any] | str,
-    format: typing.Literal["mtx", "edges"] | str | types.NoneType = None,
+    format: typing.Literal["mtx", "edges"] | str | None = None,
 ) -> nx.Graph:
     r"""Reads a graph from a file in one of the supported formats."""
 

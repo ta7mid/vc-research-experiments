@@ -2,7 +2,6 @@ import argparse
 import logging
 import os
 import pathlib
-import types
 import typing
 
 import networkx as nx
@@ -10,10 +9,10 @@ import networkx as nx
 import read_graph
 
 __all__ = [
-    "compute_from_file",
     "compute",
-    "max_and_avg_degrees",
+    "compute_from_file",
     "density",
+    "max_and_avg_degrees",
 ]
 
 logger = logging.getLogger(__name__)
@@ -60,12 +59,12 @@ def main():
     for key, val in props.items():
         if type(val) is bool:
             val = "yes" if val else "no"
-        print("{}: {}\n".format(key, val))
+        print(f"{key}: {val}\n")
 
 
 def compute_from_file(
     filepath: pathlib.Path | os.PathLike[typing.Any] | str,
-    format: typing.Literal["mtx", "edges"] | str | types.NoneType = None,
+    format: typing.Literal["mtx", "edges"] | str | None = None,
 ) -> dict[str, int | float | bool]:
     """Reads a graph from a file in one of the supported formats."""
 

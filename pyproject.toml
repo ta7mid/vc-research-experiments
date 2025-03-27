@@ -13,7 +13,6 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-    "isort>=6.0.1",
     "jupyterlab>=4.3.6",
     "mypy>=1.15.0",
     "ruff>=0.11.2",
@@ -21,5 +20,13 @@ dev = [
     "types-networkx>=3.4.2.20250319",
 ]
 
-[tools.ruff]
-extend-select = ["I"]
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle
+    "F",    # Pyflakes
+    "UP",   # pyupgrade
+    "B",    # flake8-bugbear
+    "SIM",  # flake8-simplify
+    "I",    # isort
+    "RUF",  # Ruff-specific rules
+]

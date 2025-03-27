@@ -98,7 +98,7 @@ def prepare(graph_dir: pathlib.Path | os.PathLike[typing.Any] | str):
                     for key, val in props.items():
                         if type(val) is bool:
                             val = "yes" if val else "no"
-                        _ = f.write("{}: {}\n".format(key, val))
+                        _ = f.write(f"{key}: {val}\n")
 
                 return
             except ValueError as e:
