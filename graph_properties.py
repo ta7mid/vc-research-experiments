@@ -27,16 +27,16 @@ def main():
 
     parser = argparse.ArgumentParser(
         description=(
-            "Read a graph from a text file in one of the supported formats and print its "
-            "properties in YAML format."
+            "Read a graph from a text file in one of the supported formats and print "
+            "its properties in YAML format (`<key>: <value>` pairs on separate lines)."
         )
     )
     _ = parser.add_argument(
         "graph_filepath",
         type=str,
         help=(
-            "Path to the file containing the graph representation, or '-' to read the path from "
-            "stdin"
+            "Path to the file containing the graph representation, or '-' to read the "
+            "path from stdin"
         ),
     )
     _ = parser.add_argument(
@@ -44,7 +44,8 @@ def main():
         choices=("mtx", "edges"),
         default=None,
         help=(
-            "Representation format of the input graph (default: guess from the filename extension)"
+            "Representation format of the input graph (default: guess from the "
+            "filename extension)"
         ),
     )
 

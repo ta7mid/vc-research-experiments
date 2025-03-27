@@ -22,7 +22,9 @@ def main():
     )
 
     parser = argparse.ArgumentParser(
-        description="Download a file from a URL and print the path of the downloaded file."
+        description=(
+            "Download a file from a URL and print the path of the downloaded file."
+        )
     )
     _ = parser.add_argument(
         "url",
@@ -33,7 +35,10 @@ def main():
         "-destdir",
         type=str,
         default=None,
-        help="Destination directory to save the file (default: random temporary directory)",
+        help=(
+            "Destination directory to save the file (default: random temporary "
+            "directory)"
+        ),
     )
     _ = parser.add_argument(
         "-name",
@@ -45,8 +50,8 @@ def main():
         "-noclobber",
         action="store_true",
         help=(
-            "Do not overwrite an existing file with the same path as the download's destination "
-            "path, if it exists"
+            "Do not overwrite an existing file with the same path as the download's "
+            "destination path, if it exists"
         ),
     )
     args = parser.parse_args()
@@ -74,12 +79,12 @@ def download(
     """Downloads a file from a URL.
 
     :param url: URL of the file to download
-    :param destdir: Destination directory to save the file; if None, a temporary directory is used,
-        otherwise it must not be an empty string or path
+    :param destdir: Destination directory to save the file; if None, a temporary
+        directory is used, otherwise it must not be an empty string or path
     :param filename: Filename to save the file as; if None, it is guessed from the URL,
         otherwise it must not contain path separators and must not be an empty string
-    :param noclobber: Do not overwrite an existing file with the same path as the download's
-        destination path, if it exists
+    :param noclobber: Do not overwrite an existing file with the same path as the
+        download's destination path, if it exists
     :return: Path to the downloaded file
     """
 
@@ -89,8 +94,8 @@ def download(
     elif not os.fspath(destdir):
         raise ValueError(
             (
-                "Cannot specify an empty path or string for destdir; use '.' for the current "
-                "directory or None to create and use a temporary directory"
+                "Cannot specify an empty path or string for destdir; use '.' for the "
+                "current directory or None to create and use a temporary directory"
             )
         )
     else:
@@ -101,7 +106,10 @@ def download(
             logger.debug(f"Created download destination directory '{destdir}'")
         elif not destdir.is_dir():
             raise ValueError(
-                f"Download destination '{destdir}' already exists but is not a directory",
+                (
+                    f"Download destination '{destdir}' already exists but is not a "
+                    "directory"
+                )
             )
 
     if filename is None:

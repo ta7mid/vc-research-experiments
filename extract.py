@@ -30,18 +30,18 @@ def main():
         type=str,
         default=None,
         help=(
-            "Parent of the directory into which the contents of the ZIP archive will be extracted "
-            "(default: 'data/' in the script's directory).  The extracted contents will reside in "
-            "a subdirectory of this directory named after the ZIP file (taking its prefix until "
-            "the first '.')."
+            "Parent of the directory into which the contents of the ZIP archive will "
+            "be extracted (default: 'data/' in the script's directory).  The extracted "
+            "contents will reside in a subdirectory of this directory named after the "
+            "ZIP file (taking its prefix until the first '.')."
         ),
     )
     _ = parser.add_argument(
         "-noclobber",
         action="store_true",
         help=(
-            "Do not overwrite an existing directory with the same path as the extraction "
-            "destination, if it exists"
+            "Do not overwrite an existing directory with the same path as the "
+            "extraction destination, if it exists"
         ),
     )
     _ = parser.add_argument(
@@ -77,8 +77,9 @@ def unzip(
     elif not os.fspath(out_parent):
         raise ValueError(
             (
-                "Cannot specify an empty path or string for dir; use '.' for the current directory "
-                "or None to use the 'data' directory in the script's directory"
+                "Cannot specify an empty path or string for dir; use '.' for the "
+                "current directory or None to use the 'data' directory in the script's "
+                "directory"
             )
         )
     else:
@@ -89,7 +90,10 @@ def unzip(
             logger.debug(f"Created extraction parent directory '{out_parent}'")
         elif not out_parent.is_dir():
             raise ValueError(
-                f"Specified extraction parent '{out_parent}' already exists but is not a directory",
+                (
+                    f"Specified extraction parent '{out_parent}' already exists but is "
+                    "not a directory"
+                )
             )
 
     zip_filepath = pathlib.Path(zip_filepath)

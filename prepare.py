@@ -25,16 +25,16 @@ def main():
 
     parser = argparse.ArgumentParser(
         description=(
-            "Process a graph downloaded from Network Repository to make it ready for the "
-            "experiments."
+            "Process a graph downloaded from Network Repository to make it ready for "
+            "the experiments."
         )
     )
     _ = parser.add_argument(
         "graph_dir",
         type=str,
         help=(
-            "Path to the unzipped directory containing the graph data files, or '-' to read the "
-            "path from stdin"
+            "Path to the unzipped directory containing the graph data files, or '-' to "
+            "read the path from stdin"
         ),
     )
 
@@ -47,7 +47,8 @@ def main():
 
 
 def prepare(graph_dir: pathlib.Path | os.PathLike[typing.Any] | str):
-    """Processes a graph downloaded from Network Repository to make it ready for the experiments."""
+    """Processes a graph downloaded from Network Repository to make it ready for the
+    experiments."""
 
     logger.info(f"Processing graph data in the directory '{graph_dir}'.")
 
@@ -61,8 +62,11 @@ def prepare(graph_dir: pathlib.Path | os.PathLike[typing.Any] | str):
 
     for path in graph_dir.iterdir():
         if path.is_file() and path.suffix in (".mtx", ".edges"):
-            logger.info(
-                f"Taking graph data from file '{path}' and ignoring other files in '{graph_dir}'."
+            logger.debug(
+                (
+                    f"Taking graph data from the file '{path}' and ignoring other "
+                    f"files in '{graph_dir}'."
+                )
             )
 
             try:
@@ -85,7 +89,7 @@ def prepare(graph_dir: pathlib.Path | os.PathLike[typing.Any] | str):
                     else:
                         child.unlink()
 
-                # write the graph's edge list representation and properties to the directory
+                # write the graph's edge list representation and properties to the dir
                 with open(graph_dir / "graph.edges", "wb") as f:
                     logger.info(f"Writing {graph_dir / 'graph.edges'}.")
                     nx.write_edgelist(g, f, data=False)

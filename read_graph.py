@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 
 import argparse
-from collections import abc
 import logging
 import os
 import pathlib
 import re
 import types
 import typing
+from collections import abc
 
 import networkx as nx
 import scipy.io
@@ -25,16 +25,16 @@ def main():
 
     parser = argparse.ArgumentParser(
         description=(
-            "Parse a graph from a text file in one of the supported formats and print an edge-"
-            "list representation of it."
+            "Parse a graph from a text file in one of the supported formats and print "
+            "an edge-list representation of it."
         )
     )
     _ = parser.add_argument(
         "graph_filepath",
         type=str,
         help=(
-            "Path to the file containing the graph representation, or '-' to read the path from "
-            "stdin"
+            "Path to the file containing the graph representation, or '-' to read the "
+            "path from stdin"
         ),
     )
     _ = parser.add_argument(
@@ -42,7 +42,8 @@ def main():
         choices=("mtx", "edges"),
         default=None,
         help=(
-            "Representation format of the input graph (default: guess from the filename extension)"
+            "Representation format of the input graph (default: guess from the "
+            "filename extension"
         ),
     )
     _ = parser.add_argument(
@@ -115,8 +116,8 @@ def from_file(
 
 
 def from_mtx_file(filepath: pathlib.Path) -> nx.Graph:
-    r"""Reads an adjacency matrix from a file in the Matrix Market format [1]_ and constructs an
-    :py:class:`nx.Graph` from it, following [2]_.
+    r"""Reads an adjacency matrix from a file in the Matrix Market format [1]_ and
+    : constructs anpy:class:`nx.Graph` from it, following [2]_.
 
     .. rubric:: References
 
@@ -132,7 +133,10 @@ def from_mtx_file(filepath: pathlib.Path) -> nx.Graph:
         g = nx.convert_matrix.from_numpy_array(adjmat)
     else:
         logger.debug(
-            "Constructing nx.Graph from the sparse adjacency matrix given as a coordinate list."
+            (
+                "Constructing nx.Graph from the sparse adjacency matrix given as a "
+                "coordinate list."
+            )
         )
         g = nx.convert_matrix.from_scipy_sparse_array(adjmat)
 
@@ -151,12 +155,13 @@ def from_edge_list_file(filepath: pathlib.Path) -> nx.Graph:
 
 
 def parse_edge_list(lines: abc.Iterable[str]) -> nx.Graph:
-    r""""Parses a graph represented as a list of edges, one per line.
+    r"""Parses a graph represented as a list of edges, one per line.
 
-    This implementation is generalized from :py:func:`nx.convert_matrix.parse_edgelist` [1]_ to
-    allow both whitespace characters (``\s`` in regex) and comma (``,``) to be used as delimiters
-    (to separate the nodes of an edge on each line) simultaneously and to allow both ``#`` and
-    ``%`` to be used as comment prefixes simultaneously.
+    This implementation is generalized from
+    :py:func:`nx.convert_matrix.parse_edgelist` [1]_ to allow both whitespace characters
+    (``\s`` in regex) and comma (``,``) to be used as delimiters (to separate the nodes
+    of an edge on each line) simultaneously and to allow both ``#`` and ``%`` to be used
+    as comment prefixes simultaneously.
 
     .. rubric:: References
 

@@ -10,8 +10,8 @@ import prepare
 def main():
     parser = argparse.ArgumentParser(
         description=(
-            "Download a graph from Network Repository and preprocess it to make it ready for the "
-            "experiments."
+            "Download a graph from Network Repository and preprocess it to make it "
+            "ready for the experiments."
         )
     )
     _ = parser.add_argument(
