@@ -57,9 +57,7 @@ def main():
 
     logger.debug("Printing analysis results.")
     for key, val in props.items():
-        if type(val) is bool:
-            val = "yes" if val else "no"
-        print(f"{key}: {val}\n")
+        print(f"{key}: {format(val)}\n")
 
 
 def compute_from_file(
@@ -96,6 +94,14 @@ def max_and_avg_degrees(g: nx.Graph) -> tuple[int, float]:
 
 def density(g: nx.Graph) -> float:
     return 2 * g.size() / (g.order() * (g.order() - 1))
+
+
+def format_value(val: int | float | bool) -> str:
+    match val:
+        case bool():
+            return "yes" if val else "no"
+        case _:
+            return str(val)
 
 
 if __name__ == "__main__":

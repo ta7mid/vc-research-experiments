@@ -96,9 +96,7 @@ def prepare(graph_dir: pathlib.Path | os.PathLike[typing.Any] | str):
                 with open(graph_dir / "properties.yaml", "w") as f:
                     logger.info(f"Writing {graph_dir / 'properties.yaml'}.")
                     for key, val in props.items():
-                        if type(val) is bool:
-                            val = "yes" if val else "no"
-                        _ = f.write(f"{key}: {val}\n")
+                        _ = f.write(f"{key}: {graph_properties.format_value(val)}\n")
 
                 return
             except ValueError as e:
