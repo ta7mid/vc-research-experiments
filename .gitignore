@@ -9,12 +9,18 @@ wheels/
 # Virtual environments
 .venv
 
-# PyCharm
-.idea
-
 # Ruff
 .ruff_cache/
 
 # scratch files
 scratch.ipynb
 scratch.py
+
+# PyCharm
+.idea
+
+# Visual Studio Code
+.vscode
+
+# Zed
+.zed
