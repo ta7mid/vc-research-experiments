@@ -5,6 +5,9 @@ import argparse
 import download
 import extract
 import prepare
+import utils
+
+logger = utils.configure_logger(__name__)
 
 
 def main():
@@ -21,16 +24,16 @@ def main():
 
     args = parser.parse_args()
 
-    print(f"Downloading '{args.url}' ...")
+    logger.info(f"Downloading '{args.url}' ...")
     zip_path = download.download(args.url)
 
-    print(f"Extracting '{zip_path}' ...")
+    logger.info(f"Extracting '{zip_path}' ...")
     extracted_dir = extract.unzip(zip_path)
 
-    print(f"Parsing and preparing the graph in '{extracted_dir}' ...")
+    logger.info(f"Parsing and preparing the graph in '{extracted_dir}' ...")
     prepare.prepare(extracted_dir)
 
-    print("Success!")
+    logger.info("Success!")
 
 
 if __name__ == "__main__":

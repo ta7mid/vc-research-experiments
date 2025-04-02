@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import argparse
-import logging
 import os
 import pathlib
 import re
@@ -11,17 +10,14 @@ from collections import abc
 import networkx as nx
 import scipy.io
 
+import utils
+
 __all__ = ["from_edge_list_file", "from_file", "from_mtx_file"]
 
-logger = logging.getLogger(__name__)
+logger = utils.configure_logger(__name__)
 
 
 def main():
-    logging.basicConfig(
-        filename=os.environ.get("LOGFILE", None),
-        level=os.environ.get("LOGLEVEL", "WARNING").upper(),
-    )
-
     parser = argparse.ArgumentParser(
         description=(
             "Parse a graph from a text file in one of the supported formats and print "
@@ -67,7 +63,7 @@ def main():
         logger.debug("Relabeling nodes.")
         g = nx.convert_node_labels_to_integers(g)
 
-    logger.debug("Printing the edge list representation of the graph.")
+    logger.debug("Printing an edge list representation of the graph.")
     for line in nx.generate_edgelist(g, data=False):
         print(line)
 

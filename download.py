@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import argparse
-import logging
 import os
 import os.path
 import pathlib
@@ -9,17 +8,14 @@ import tempfile
 import typing
 from urllib import request
 
+import utils
+
 __all__ = ["download"]
 
-logger = logging.getLogger(__name__)
+logger = utils.configure_logger(__name__)
 
 
 def main():
-    logging.basicConfig(
-        filename=os.environ.get("LOGFILE", None),
-        level=os.environ.get("LOGLEVEL", "WARNING").upper(),
-    )
-
     parser = argparse.ArgumentParser(
         description=(
             "Download a file from a URL and print the path of the downloaded file."
@@ -115,7 +111,7 @@ def download(
 
     if filename is None:
         filename = url.split("/")[-1]
-        logger.info(f"Guessed filename '{filename}' from the URL")
+        logger.info(f"Guessed the filename to be '{filename}'")
     elif not os.fspath(filename):
         raise ValueError(
             "Filename must not be an empty string; use None to guess from the URL"

@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import argparse
-import logging
 import os
 import pathlib
 import shutil
@@ -11,18 +10,14 @@ import networkx as nx
 
 import graph_properties
 import read_graph
+import utils
 
 __all__ = ["prepare"]
 
-logger = logging.getLogger(__name__)
+logger = utils.configure_logger(__name__)
 
 
 def main():
-    logging.basicConfig(
-        filename=os.environ.get("LOGFILE", None),
-        level=os.environ.get("LOGLEVEL", "WARNING").upper(),
-    )
-
     parser = argparse.ArgumentParser(
         description=(
             "Process a Network Repository graph to make it ready for the experiments."
@@ -90,10 +85,10 @@ def prepare(graph_dir: pathlib.Path | os.PathLike[typing.Any] | str):
 
                 # write the graph's edge list representation and properties to the dir
                 with open(graph_dir / "graph.edges", "wb") as f:
-                    logger.info(f"Writing {graph_dir / 'graph.edges'}.")
+                    logger.info(f"Writing {graph_dir / 'graph.edges'}")
                     nx.write_edgelist(g, f, data=False)
                 with open(graph_dir / "properties.yaml", "w") as f:
-                    logger.info(f"Writing {graph_dir / 'properties.yaml'}.")
+                    logger.info(f"Writing {graph_dir / 'properties.yaml'}")
                     for key, val in props.items():
                         _ = f.write(f"{key}: {graph_properties.format_value(val)}\n")
 

@@ -1,21 +1,17 @@
 #!/usr/bin/env python3
 
 import argparse
-import logging
 import os
 import pathlib
 import typing
 import zipfile
 
-logger = logging.getLogger(__name__)
+import utils
+
+logger = utils.configure_logger(__name__)
 
 
 def main():
-    logging.basicConfig(
-        filename=os.environ.get("LOGFILE", None),
-        level=os.environ.get("LOGLEVEL", "WARNING").upper(),
-    )
-
     parser = argparse.ArgumentParser(
         description="Unzip a file and print the path of the extracted directory"
     )

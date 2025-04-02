@@ -1,5 +1,4 @@
 import argparse
-import logging
 import os
 import pathlib
 import typing
@@ -7,6 +6,7 @@ import typing
 import networkx as nx
 
 import read_graph
+import utils
 
 __all__ = [
     "compute",
@@ -15,15 +15,10 @@ __all__ = [
     "max_and_avg_degrees",
 ]
 
-logger = logging.getLogger(__name__)
+logger = utils.configure_logger(__name__)
 
 
 def main():
-    logging.basicConfig(
-        filename=os.environ.get("LOGFILE", None),
-        level=os.environ.get("LOGLEVEL", "WARNING").upper(),
-    )
-
     parser = argparse.ArgumentParser(
         description=(
             "Read a graph from a text file in one of the supported formats and print "
