@@ -98,16 +98,7 @@ def from_file(
     match format:
         case "mtx":
             logger.info("Reading as a Matrix Market file.")
-            try:
-                g = from_mtx_file(filepath)
-            except ValueError as error:
-                logger.warning(f"Failed to read graph as Matrix Market file: {error}")
-                logger.info("Trying to read as an edge list file instead.")
-
-                try:
-                    g = from_edge_list_file(filepath)
-                except ValueError as e:
-                    raise ValueError("Could not read graph as edge list either.") from e
+            return from_mtx_file(filepath)
 
         case "edges":
             logger.info("Reading as an edge list file.")
@@ -115,8 +106,6 @@ def from_file(
 
         case _:
             raise ValueError(f"Unrecognized format: {format}")
-
-    return g
 
 
 def from_mtx_file(filepath: pathlib.Path) -> nx.Graph:
