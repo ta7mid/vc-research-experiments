@@ -173,14 +173,17 @@ def parse_edge_list(lines: abc.Iterable[str]) -> nx.Graph:
     """
 
     g = nx.Graph()
+    index = 0
 
     for line in lines:
+        index += 1
+
         # ignore comments, which we assume are prefixed by either '#' or '%'
         line = re.split(r"[#%]", line, maxsplit=1)[0]
 
         # skip if the line is empty after stripping away optional comments
         if line == "":
-            logger.debug("Skipping empty line.")
+            logger.debug(f"Skipping line #{index}: empty line.")
             continue
 
         # replace consecutive sequences of whitespace and commas with a single space
@@ -190,7 +193,7 @@ def parse_edge_list(lines: abc.Iterable[str]) -> nx.Graph:
         # to ignore weights or other edge metadata
         nodes = tuple(map(str, line.split(maxsplit=2)[:2]))
         if len(nodes) < 2:
-            logger.debug("Skipping line with less than 2 nodes.")
+            logger.warning(f"Skipping line #{index}: less than 2 tokens.")
             continue
 
         g.add_edge(*nodes)
