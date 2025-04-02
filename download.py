@@ -27,42 +27,44 @@ def main():
     )
     _ = parser.add_argument(
         "url",
-        type=str,
-        help="URL of the file to download, or '-' to read the URL from stdin",
-    )
-    _ = parser.add_argument(
-        "-destdir",
-        type=str,
-        default=None,
+        nargs="?",
         help=(
-            "Destination directory to save the file (default: random temporary "
-            "directory)"
+            "URL of the file to download; if this argument is either not provided or "
+            "provided as an empty string, the URL will be read from stdin"
         ),
     )
     _ = parser.add_argument(
-        "-name",
-        type=str,
-        default=None,
+        "-O",
+        "--destdir",
+        help=(
+            "Destination directory to save the file (default: a randomly named "
+            "temporary directory)"
+        ),
+    )
+    _ = parser.add_argument(
+        "-o",
+        "--filename",
         help="Filename to save the file as (default: guessed from the URL)",
     )
     _ = parser.add_argument(
-        "-noclobber",
+        "-n",
+        "--noclobber",
         action="store_true",
         help=(
             "Do not overwrite an existing file with the same path as the download's "
-            "destination path, if it exists"
+            "destination path if such a file already exists (default: do overwrite)"
         ),
     )
     args = parser.parse_args()
 
-    if args.url == "-":
+    if not args.url:
         args.url = input()
 
     path = download(
         args.url,
         destdir=args.destdir,
-        filename=args.name,
-        noclobber=args.noclobber,
+        filename=args.filename,
+        no_clobber=args.noclobber,
     )
 
     print(path)
@@ -73,7 +75,7 @@ def download(
     *,
     destdir: pathlib.Path | os.PathLike[typing.Any] | str | None = None,
     filename: str | None = None,
-    noclobber: bool = False,
+    no_clobber: bool = False,
 ) -> str:
     """Downloads a file from a URL.
 
@@ -82,7 +84,7 @@ def download(
         directory is used, otherwise it must not be an empty string or path
     :param filename: Filename to save the file as; if None, it is guessed from the URL,
         otherwise it must not contain path separators and must not be an empty string
-    :param noclobber: Do not overwrite an existing file with the same path as the
+    :param no_clobber: Do not overwrite an existing file with the same path as the
         download's destination path, if it exists
     :return: Path to the downloaded file
     """
@@ -126,12 +128,14 @@ def download(
     destpath = destdir / filename
     logger.info(f"Downloading from '{url}' to '{destpath}'")
 
-    if destpath.exists() and noclobber:
-        raise FileExistsError(
-            f"Destination file '{destpath}' already exists, but "
-            + ("the -noclobber flag" if __name__ == "__main__" else "noclobber=True")
-            + " was specified"
-        )
+    if destpath.exists():
+        if no_clobber:
+            arg = "the -noclobber flag" if __name__ == "__main__" else "no_clobber=True"
+            raise FileExistsError(
+                f"Destination file '{destpath}' already exists, but {arg} was specified"
+            )
+
+        logger.warning(f"Destination file '{destpath}' already exists; overwriting")
 
     path, headers = request.urlretrieve(url, filename=destpath)
     logger.debug(f"Downloaded to '{path}' with headers: {headers}")

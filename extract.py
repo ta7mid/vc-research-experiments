@@ -21,44 +21,49 @@ def main():
     )
     _ = parser.add_argument(
         "zip_filepath",
-        type=str,
-        help="Path of the ZIP file, or '-' to read the path from stdin",
-    )
-    _ = parser.add_argument(
-        "-dir",
-        type=str,
-        default=None,
+        nargs="?",
         help=(
-            "Parent of the directory into which the contents of the ZIP archive will "
-            "be extracted (default: 'data/' in the script's directory).  The extracted "
-            "contents will reside in a subdirectory of this directory named after the "
-            "ZIP file (taking its prefix until the first '.')."
+            "Path of the ZIP file; if this argument is either not provided or provided "
+            "as an empty string, the path will be read from stdin"
         ),
     )
     _ = parser.add_argument(
-        "-noclobber",
+        "-O",
+        "--outdir",
+        help=(
+            "Parent of the directory into which the contents of the ZIP archive will "
+            "be extracted (default: 'data/' in the script's directory); the extracted "
+            "files will reside in a subdirectory of this directory named after the "
+            "ZIP file (taking its prefix until the first dot)."
+        ),
+    )
+    _ = parser.add_argument(
+        "-n",
+        "--noclobber",
         action="store_true",
         help=(
             "Do not overwrite an existing directory with the same path as the "
-            "extraction destination, if it exists"
+            "extraction destination if such a file already exists (default: do "
+            "overwrite)"
         ),
     )
     _ = parser.add_argument(
-        "-rm",
+        "-k",
+        "--keep",
         action="store_true",
-        help="Remove (delete) the ZIP file after extraction",
+        help="Keep the ZIP file after extraction (default: delete it)",
     )
 
     args = parser.parse_args()
 
-    if args.zip_filepath == "-":
+    if not args.zip_filepath:
         args.zip_filepath = input()
 
     path = unzip(
         args.zip_filepath,
-        out_parent=args.dir,
+        out_parent=args.outdir,
         no_clobber=args.noclobber,
-        delete_zip=args.rm,
+        keep=args.keep,
     )
 
     print(path)
@@ -68,7 +73,7 @@ def unzip(
     zip_filepath: pathlib.Path | os.PathLike[typing.Any] | str,
     out_parent: pathlib.Path | os.PathLike[typing.Any] | str | None = None,
     no_clobber: bool = False,
-    delete_zip: bool = True,
+    keep: bool = False,
 ) -> pathlib.Path:
     if out_parent is None:
         out_parent = pathlib.Path(__file__).parent / "data"
@@ -76,9 +81,8 @@ def unzip(
     elif not os.fspath(out_parent):
         raise ValueError(
             (
-                "Cannot specify an empty path or string for dir; use '.' for the "
-                "current directory or None to use the 'data' directory in the script's "
-                "directory"
+                "Cannot specify an empty string as out_parent; use '.' for the current "
+                "directory or None to use the 'data' directory in this script's parent"
             )
         )
     else:
@@ -98,22 +102,22 @@ def unzip(
     zip_filepath = pathlib.Path(zip_filepath)
 
     # the prefix of zip_filepath.name until the first '.'
-    filename = zip_filepath.name.split(".", maxsplit=1)[0]
+    filename_stem = zip_filepath.name.split(".", maxsplit=1)[0]
 
-    exdir = out_parent / filename
+    exdir = out_parent / filename_stem
     logger.info(f"Extracting '{zip_filepath}' to '{exdir}'")
 
     if exdir.exists() and no_clobber:
         raise FileExistsError(
             f"Extraction destination '{exdir}' already exists, but "
-            + ("the -noclobber flag" if __name__ == "__main__" else "no_clobber=True")
+            + ("the --noclobber flag" if __name__ == "__main__" else "no_clobber=True")
             + " was specified"
         )
 
     with zipfile.ZipFile(zip_filepath, mode="r") as zip_file:
         zip_file.extractall(path=exdir)
 
-        if delete_zip:
+        if not keep:
             logger.info(f"Deleting '{zip_filepath}'")
             zip_filepath.unlink()
 

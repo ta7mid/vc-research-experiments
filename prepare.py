@@ -25,30 +25,29 @@ def main():
 
     parser = argparse.ArgumentParser(
         description=(
-            "Process a graph downloaded from Network Repository to make it ready for "
-            "the experiments."
+            "Process a Network Repository graph to make it ready for the experiments."
         )
     )
     _ = parser.add_argument(
         "graph_dir",
-        type=str,
+        nargs="?",
         help=(
-            "Path to the unzipped directory containing the graph data files, or '-' to "
-            "read the path from stdin"
+            "Path to the unzipped directory containing the graph data files; if this "
+            "argument is either not provided or provided as an empty string, the path "
+            "will be read from stdin"
         ),
     )
 
     args = parser.parse_args()
 
-    if args.graph_dir == "-":
+    if not args.graph_dir:
         args.graph_dir = input()
 
     prepare(args.graph_dir)
 
 
 def prepare(graph_dir: pathlib.Path | os.PathLike[typing.Any] | str):
-    """Processes a graph downloaded from Network Repository to make it ready for the
-    experiments."""
+    """Processes a Network Repository graph to make it ready for the experiments."""
 
     logger.info(f"Processing graph data in the directory '{graph_dir}'.")
 

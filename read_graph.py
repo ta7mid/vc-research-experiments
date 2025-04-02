@@ -30,30 +30,35 @@ def main():
     )
     _ = parser.add_argument(
         "graph_filepath",
-        type=str,
+        nargs="?",
         help=(
-            "Path to the file containing the graph representation, or '-' to read the "
-            "path from stdin"
+            "Path to the file containing the graph representation; if this argument is "
+            "either not provided or provided as an empty string, the path will be read "
+            "from stdin"
         ),
     )
     _ = parser.add_argument(
-        "-format",
+        "-f",
+        "--format",
         choices=("mtx", "edges"),
-        default=None,
         help=(
             "Representation format of the input graph (default: guess from the "
             "filename extension"
         ),
     )
     _ = parser.add_argument(
-        "-relabel",
+        "-r",
+        "--relabel",
         action="store_true",
-        help="Relabel the vertices of output graph using integers starting from 0",
+        help=(
+            "Relabel the vertices of output graph using consecutive non-negative "
+            "integers, starting with zero (default: do not relabel)"
+        ),
     )
 
     args = parser.parse_args()
 
-    if args.graph_filepath == "-":
+    if not args.graph_filepath:
         args.graph_filepath = input()
 
     g = from_file(args.graph_filepath, args.format)

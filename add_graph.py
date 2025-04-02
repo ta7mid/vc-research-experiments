@@ -16,7 +16,6 @@ def main():
     )
     _ = parser.add_argument(
         "url",
-        type=str,
         help="URL of the ZIP file containing the graph data",
     )
 
