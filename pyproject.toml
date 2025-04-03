@@ -3,7 +3,7 @@
 [project]
 name = "vc-research-experiments"
 version = "0.1.0"
-description = "Add your description here"
+description = "Experiment data and scripts for preparing the data and running the experiments for the author’s vertex cover research project"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
