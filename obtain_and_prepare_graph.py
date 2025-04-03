@@ -4,7 +4,7 @@ import argparse
 
 import download
 import extract
-import prepare
+import preprocess_graph
 import utils
 
 logger = utils.configure_logger(__name__)
@@ -31,7 +31,7 @@ def main():
     extracted_dir = extract.unzip(zip_path)
 
     logger.info(f"Parsing and preparing the graph in '{extracted_dir}' ...")
-    prepare.prepare(extracted_dir)
+    preprocess_graph.in_extracted_dir(extracted_dir)
 
     logger.info("Success!")
 

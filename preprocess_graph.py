@@ -12,7 +12,7 @@ import graph_properties
 import read_graph
 import utils
 
-__all__ = ["prepare"]
+__all__ = ["in_extracted_dir"]
 
 logger = utils.configure_logger(__name__)
 
@@ -38,10 +38,10 @@ def main():
     if not args.graph_dir:
         args.graph_dir = input()
 
-    prepare(args.graph_dir)
+    in_extracted_dir(args.graph_dir)
 
 
-def prepare(graph_dir: pathlib.Path | os.PathLike[typing.Any] | str):
+def in_extracted_dir(graph_dir: pathlib.Path | os.PathLike[typing.Any] | str):
     """Processes a Network Repository graph to make it ready for the experiments."""
 
     logger.info(f"Processing graph data in the directory '{graph_dir}'")
