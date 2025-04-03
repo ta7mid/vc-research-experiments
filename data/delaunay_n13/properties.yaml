@@ -1,5 +1,5 @@
-nodes: 8192
-edges: 24547
+order: 8192
+size: 24547
 max_degree: 12
 avg_degree: 5.992919921875
 density: 0.0007316469200189232
