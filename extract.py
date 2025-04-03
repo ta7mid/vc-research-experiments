@@ -30,7 +30,7 @@ def main():
             "Parent of the directory into which the contents of the ZIP archive will "
             "be extracted (default: the 'data' directory in the script's directory); "
             "the extracted files will reside in a subdirectory of this directory named "
-            "after the ZIP file (taking its prefix until the first dot)."
+            "after the ZIP file (taking its filename's prefix until the first dot)"
         ),
     )
     _ = parser.add_argument(
@@ -71,6 +71,18 @@ def unzip(
     no_clobber: bool = False,
     keep: bool = False,
 ) -> pathlib.Path:
+    """Unzip a ZIP file to a directory.
+
+    :param zip_filepath: The path to the ZIP file to unzip
+    :param out_parent: Parent of the directory into which the contents of the ZIP
+        archive will be extracted (default: the 'data' directory in the script's
+        directory); the extracted files will reside in a subdirectory of this directory
+        named using the ZIP file's name's prefix upto and excluding the first dot
+    :param no_clobber: Whether to raise an error if a file already exists
+    :param keep: Whether to keep the ZIP file after extraction
+    :return: The path to the extracted directory
+    """
+
     if out_parent is None:
         out_parent = pathlib.Path(__file__).parent / "data"
         logger.info(f"Using '{out_parent}' as the default extraction parent directory")

@@ -106,7 +106,7 @@ def from_file(
 
 def from_mtx_file(filepath: pathlib.Path) -> nx.Graph:
     r"""Reads an adjacency matrix from a file in the Matrix Market format [1]_ and
-    : constructs anpy:class:`nx.Graph` from it, following [2]_.
+    : constructs an :class:`nx.Graph` from it, following [2]_.
 
     .. rubric:: References
 
@@ -116,9 +116,9 @@ def from_mtx_file(filepath: pathlib.Path) -> nx.Graph:
 
     logger.debug("Reading an adjacency matrix from the Matrix Market data.")
     adj_mat = scipy.io.mmread(filepath)
-    dense = scipy.io.mminfo(filepath)[3] == "array"
+    is_dense = scipy.io.mminfo(filepath)[3] == "array"
 
-    if dense:
+    if is_dense:
         logger.debug(
             "Creating nx.Graph from the dense adjacency matrix (all entries given)."
         )
@@ -144,10 +144,10 @@ def from_edge_list_file(filepath: pathlib.Path) -> nx.Graph:
 
 
 def parse_edge_list(lines: abc.Iterable[str]) -> nx.Graph:
-    r"""Parses a graph represented as a list of edges, one per line.
+    r"""Creates an :class:`nx.Graph` by parsing an edge-list representation of it.
 
     This implementation is generalized from
-    :py:func:`nx.convert_matrix.parse_edgelist` [1]_ to allow both whitespace characters
+    :func:`nx.convert_matrix.parse_edgelist` [1]_ to allow both whitespace characters
     (``\s`` in regex) and comma (``,``) to be used as delimiters (to separate the nodes
     of an edge on each line) simultaneously and to allow both ``#`` and ``%`` to be used
     as comment prefixes simultaneously.

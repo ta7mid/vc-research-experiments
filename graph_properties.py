@@ -60,17 +60,31 @@ def compute_from_file(
     filepath: pathlib.Path | os.PathLike[typing.Any] | str,
     format: typing.Literal["mtx", "edges"] | str | None = None,
 ) -> dict[str, int | float | bool]:
-    """Reads a graph from a file in one of the supported formats."""
+    """Reads a graph from a file in one of the supported formats and computes its
+    properties that are relevant for our experiments."""
 
     g = read_graph.from_file(filepath, format)
     return compute(g)
 
 
 def compute(g: nx.Graph) -> dict[str, int | float | bool]:
+    r"""Computes the following metadata and statistical properties of a graph:
+
+    * ``"order"``: number of nodes in the graph
+    * ``"size"``: number of edges in the graph
+    * ``"max_degree"``: maximum degree of any node in the graph
+    * ``"avg_degree"``: average degree of nodes in the graph
+    * ``"density"``: density of the graph
+    * ``"connected"``: whether the graph is connected or not
+
+    :return: a dictionary containing the properties of the graph with the keys
+        described above
+    """
+
     max_deg, avg_deg = max_and_avg_degrees(g)
     return {
-        "nodes": g.order(),
-        "edges": g.size(),
+        "order": g.order(),
+        "size": g.size(),
         "max_degree": max_deg,
         "avg_degree": avg_deg,
         "density": density(g),

@@ -125,13 +125,23 @@ def download(
     logger.info(f"Downloading from '{url}' to '{destpath}'")
 
     if destpath.exists():
+        arg = (
+            "the -noclobber flag"
+            if __name__ == "__main__"
+            else "the argument no_clobber=True"
+        )
+
         if no_clobber:
-            arg = "the -noclobber flag" if __name__ == "__main__" else "no_clobber=True"
             raise FileExistsError(
                 f"Destination file '{destpath}' already exists, but {arg} was specified"
             )
 
-        logger.warning(f"Destination file '{destpath}' already exists; overwriting")
+        logger.warning(
+            (
+                f"Destination file '{destpath}' already exists; overwriting as {arg} "
+                "was NOT specified."
+            )
+        )
 
     path, headers = request.urlretrieve(url, filename=destpath)
     logger.debug(f"Downloaded to '{path}' with headers: {headers}")
