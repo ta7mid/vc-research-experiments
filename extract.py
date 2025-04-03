@@ -28,9 +28,9 @@ def main():
         "--outdir",
         help=(
             "Parent of the directory into which the contents of the ZIP archive will "
-            "be extracted (default: 'data/' in the script's directory); the extracted "
-            "files will reside in a subdirectory of this directory named after the "
-            "ZIP file (taking its prefix until the first dot)."
+            "be extracted (default: the 'data' directory in the script's directory); "
+            "the extracted files will reside in a subdirectory of this directory named "
+            "after the ZIP file (taking its prefix until the first dot)."
         ),
     )
     _ = parser.add_argument(

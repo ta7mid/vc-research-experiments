@@ -115,19 +115,19 @@ def from_mtx_file(filepath: pathlib.Path) -> nx.Graph:
     """
 
     logger.debug("Reading an adjacency matrix from the Matrix Market data.")
-    adjmat = scipy.io.mmread(filepath)
+    adj_mat = scipy.io.mmread(filepath)
+    dense = scipy.io.mminfo(filepath)[3] == "array"
 
-    if scipy.io.mminfo(filepath)[3] == "array":
-        logger.debug("Constructing nx.Graph from the dense adjacency matrix.")
-        g = nx.convert_matrix.from_numpy_array(adjmat)
+    if dense:
+        logger.debug(
+            "Creating nx.Graph from the dense adjacency matrix (all entries given)."
+        )
+        g = nx.convert_matrix.from_numpy_array(adj_mat)
     else:
         logger.debug(
-            (
-                "Constructing nx.Graph from the sparse adjacency matrix given as a "
-                "coordinate list."
-            )
+            "Creating nx.Graph from the sparse adjacency matrix (given like edge list)."
         )
-        g = nx.convert_matrix.from_scipy_sparse_array(adjmat)
+        g = nx.convert_matrix.from_scipy_sparse_array(adj_mat)
 
     logger.info("Successfully parsed Matrix Market data and created an nx.Graph!")
     return g
@@ -158,17 +158,17 @@ def parse_edge_list(lines: abc.Iterable[str]) -> nx.Graph:
     """
 
     g = nx.Graph()
-    index = 0
+    line_num = 0
 
     for line in lines:
-        index += 1
+        line_num += 1
 
         # ignore comments, which we assume are prefixed by either '#' or '%'
         line = re.split(r"[#%]", line, maxsplit=1)[0]
 
         # skip if the line is empty after stripping away optional comments
         if line == "":
-            logger.debug(f"Skipping line #{index}: empty line.")
+            logger.debug(f"Skipping line #{line_num}: empty line.")
             continue
 
         # replace consecutive sequences of whitespace and commas with a single space
@@ -178,7 +178,7 @@ def parse_edge_list(lines: abc.Iterable[str]) -> nx.Graph:
         # to ignore weights or other edge metadata
         nodes = tuple(map(str, line.split(maxsplit=2)[:2]))
         if len(nodes) < 2:
-            logger.warning(f"Skipping line #{index}: less than 2 tokens.")
+            logger.warning(f"Skipping line #{line_num}: less than 2 tokens.")
             continue
 
         g.add_edge(*nodes)

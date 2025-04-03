@@ -44,7 +44,7 @@ def main():
 def prepare(graph_dir: pathlib.Path | os.PathLike[typing.Any] | str):
     """Processes a Network Repository graph to make it ready for the experiments."""
 
-    logger.info(f"Processing graph data in the directory '{graph_dir}'.")
+    logger.info(f"Processing graph data in the directory '{graph_dir}'")
 
     if not os.fspath(graph_dir):
         raise ValueError("Path must not be empty")
@@ -59,7 +59,7 @@ def prepare(graph_dir: pathlib.Path | os.PathLike[typing.Any] | str):
             logger.debug(
                 (
                     f"Taking graph data from the file '{path}' and ignoring other "
-                    f"files in '{graph_dir}'."
+                    f"files in '{graph_dir}'"
                 )
             )
 
@@ -76,7 +76,7 @@ def prepare(graph_dir: pathlib.Path | os.PathLike[typing.Any] | str):
                 props = graph_properties.compute(g)
 
                 # delete everything in the directory
-                logger.info(f"Deleting everything in '{graph_dir}'.")
+                logger.info(f"Deleting everything in '{graph_dir}'")
                 for child in graph_dir.iterdir():
                     if child.is_dir():
                         shutil.rmtree(child)
@@ -85,14 +85,14 @@ def prepare(graph_dir: pathlib.Path | os.PathLike[typing.Any] | str):
 
                 # write the graph's edge list representation and properties to the dir
                 with open(graph_dir / "graph.edges", "wb") as f:
-                    logger.info(f"Writing {graph_dir / 'graph.edges'}")
+                    logger.info(f"Writing '{f.name}'")
                     nx.write_edgelist(g, f, data=False)
                 with open(graph_dir / "properties.yaml", "w") as f:
-                    logger.info(f"Writing {graph_dir / 'properties.yaml'}")
+                    logger.info(f"Writing '{f.name}'")
                     for key, val in props.items():
                         _ = f.write(f"{key}: {graph_properties.format_value(val)}\n")
-
                 return
+
             except ValueError as e:
                 raise ValueError(
                     f"Error reading and processing graph from file '{path}': {e}"
