@@ -24,11 +24,11 @@ dev = [
 
 [tool.ruff.lint]
 select = [
-    "E",    # pycodestyle
-    "F",    # Pyflakes
-    "UP",   # pyupgrade
-    "B",    # flake8-bugbear
-    "SIM",  # flake8-simplify
-    "I",    # isort
-    "RUF",  # Ruff-specific rules
+    "E",   # pycodestyle
+    "F",   # Pyflakes
+    "UP",  # pyupgrade
+    "B",   # flake8-bugbear
+    "SIM", # flake8-simplify
+    "I",   # isort
+    "RUF", # Ruff-specific rules
 ]

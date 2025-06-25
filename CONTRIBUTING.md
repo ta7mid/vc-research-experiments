@@ -3,7 +3,7 @@
 ## Adding a graph from Network Repository to the dataset
 
 > [!IMPORTANT]
-> The following instructions assume that you are using [uv](https://github.com/astral-sh/uv) to run the scripts, which is **recommended**. If you are not using `uv`, substitute `uv run` with `python3` in the commands below, and make sure to create and activate a Python virtual environment and install the required dependencies (as listed in [`pyproject.toml`](pyproject.toml)) in that virtual environment beforehand.
+> The following instructions assume that you are using [uv](https://github.com/astral-sh/uv) to run the scripts, which is **recommended**. If you are not using uv, substitute `uv run` with `python3` in the commands below, and make sure to create and activate a Python virtual environment and install the required dependencies (as listed in [`pyproject.toml`](pyproject.toml)) in that virtual environment beforehand.
 
 1.  Download the ZIP file for a graph from the Network Repository website.
 
@@ -49,20 +49,20 @@
 >
 > - Notice that each script (except `download.py`) takes the output of the previous script in the data-preparation toolchain as the first and only positional argument, which is always a path on the filesystem. To help with chaining the scripts on the command line, the scripts are designed so that if you run a script omitting this positional argument, it will default to taking that argument from the standard input. This means that in Unix shells and in PowerShell, you can chain the scripts together using the pipe operator `|` into a single command line:
 >
->   ```bash
->   uv run download.py URL | uv run extract.py | uv run preprocess_graph.py
->   ```
+>     ```bash
+>     uv run download.py URL | uv run extract.py | uv run preprocess_graph.py
+>     ```
 >
->   (Substitute the URL with the actual URL of the graph data you want to download.)
+>     (Substitute the URL with the actual URL of the graph data you want to download.)
 >
->   To help things further, we have provided a script called `obtain_and_prepare_graph.py` that you can use to run the entire data-preparation toolchain in a single command:
+>     To help things further, we have provided a script called `obtain_and_prepare_graph.py` that you can use to run the entire data-preparation toolchain in a single command:
 >
->   ```bash
->   uv run obtain_and_prepare_graph.py URL
->   ```
+>     ```bash
+>     uv run obtain_and_prepare_graph.py URL
+>     ```
 >
 > - Many of the scripts can take additional (non-positional) arguments to customize their behavior. Run a script with the `--help` argument to see the available options.
 > - The scripts use the `LOGLEVEL` environment variable to determine the [logging level](https://docs.python.org/3/howto/logging.html#basic-logging-tutorial). The default level is `WARNING`, but you can set it to `INFO` or `DEBUG` to get more verbose output, e.g.:
->   ```bash
->   LOGLEVEL=DEBUG uv run preprocess_graph.py
->   ```
+>     ```bash
+>     LOGLEVEL=DEBUG uv run preprocess_graph.py
+>     ```
