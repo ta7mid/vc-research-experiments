@@ -12,12 +12,15 @@ wheels/
 # Virtual environments
 .venv
 
+# Jupyter Notebooks
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*
+
 # Ruff
 .ruff_cache/
 
 # scratch files
-scratch.ipynb
-scratch.py
+scratch/
 
 # PyCharm
 .idea
