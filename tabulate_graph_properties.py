@@ -58,7 +58,7 @@ def collect_data() -> dict[str, list[str] | list[int] | list[float] | list[bool]
         "connected": [],
     }
 
-    for path in pathlib.Path("data/").glob("*/properties.yaml"):
+    for path in pathlib.Path("data/graphs/").glob("*/properties.yaml"):
         data["name"].append(path.parent.name)
         with open(path) as f:
             for k, v in yaml.load(f, yaml.SafeLoader).items():
