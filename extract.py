@@ -84,14 +84,12 @@ def unzip(
     """
 
     if out_parent is None:
-        out_parent = pathlib.Path(__file__).parent / "data"
+        out_parent = pathlib.Path(__file__).parent / "data/graphs/"
         logger.info(f"Using '{out_parent}' as the default extraction parent directory")
     elif not os.fspath(out_parent):
         raise ValueError(
-            (
-                "Cannot specify an empty string as out_parent; use '.' for the current "
-                "directory or None to use the 'data' directory in this script's parent"
-            )
+            "Cannot specify an empty string as out_parent; use '.' for the current "
+            "directory or None to use the 'data' directory in this script's parent"
         )
     else:
         out_parent = pathlib.Path(out_parent)
@@ -101,10 +99,8 @@ def unzip(
             logger.debug(f"Created extraction parent directory '{out_parent}'")
         elif not out_parent.is_dir():
             raise ValueError(
-                (
-                    f"Specified extraction parent '{out_parent}' already exists but is "
-                    "not a directory"
-                )
+                f"Specified extraction parent '{out_parent}' already exists but is not "
+                "a directory"
             )
 
     zip_filepath = pathlib.Path(zip_filepath)

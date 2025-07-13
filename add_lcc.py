@@ -49,7 +49,7 @@ def main() -> None:
 
 
 def for_graphs_in_root(
-    rootdir: pathlib.Path | os.PathLike[typing.Any] | str = "./data/",
+    rootdir: pathlib.Path | os.PathLike[typing.Any] | str = "./data/graphs/",
 ) -> None:
     if not os.fspath(rootdir):
         raise ValueError("Cannot specify an empty path or string for path")
@@ -65,7 +65,7 @@ def for_graphs_in_root(
 
 def for_graph(dir: pathlib.Path | os.PathLike[typing.Any] | str) -> None:
     if not os.fspath(dir):
-        raise ValueError("Cannot specify an empty path or string for path")
+        raise ValueError("Cannot specify an empty path or string for dir")
     else:
         dir = pathlib.Path(dir)
 
