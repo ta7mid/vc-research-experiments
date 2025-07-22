@@ -30,3 +30,6 @@ scratch/
 
 # Zed
 .zed
+
+# project-specific
+bin/

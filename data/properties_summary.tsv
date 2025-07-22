@@ -1,6 +1,7 @@
 name                      	  order	   size	  max_degree	  avg_degree	    density	connected
 bio-WormNet-v3_lcc        	  16259	 762774	        1272	    93.8279 	0.00577118 	True
 CL-100K-1d8-L9_lcc        	  92183	 436445	         230	     9.4691 	0.000102722	True
+jan99jac020               	   6774	  31858	         167	     9.40596	0.00138874 	True
 bcsstk17_lcc              	  10456	 208838	         149	    39.9461 	0.00382076 	True
 RFdevice                  	  74104	 365551	         276	     9.86589	0.000133138	True
 mark3jac120sc             	  54929	 276914	          60	    10.0826 	0.000183561	True
